@@ -1,0 +1,9 @@
+#!/bin/bash
+for OUTPUT in $(Linux-Or-Unix-Command-Here)
+do
+	command1 on $OUTPUT
+	command2 on $OUTPUT
+	commandN
+done
+cmd=`ps -ef | awk '$NF~"main.js" {print $2}'`
+echo ${OUTPUT}
