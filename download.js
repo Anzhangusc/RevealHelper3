@@ -1,6 +1,7 @@
 const fetch = require("node-fetch-commonjs");
 var util = require("./util.js");
 const fs = require("fs");
+var constant = require("./const.js");
 
 
 const traitLoad = async(raw, state) =>{
