@@ -1,0 +1,10 @@
+{
+  "prefix": "https://api.apekidsclub.io/api/",
+  "postfix": "",
+  "offset": 100,
+  "contract": "0x9Bf252f97891b907F002F2887EfF9246e3054080",
+  "first_buy": 1,
+  "total_buy": 2,
+  "price_cap": "0.01",
+  "author": ""
+}
