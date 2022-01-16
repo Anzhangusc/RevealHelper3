@@ -2,7 +2,11 @@ const fetch = require("node-fetch-commonjs");
 var util = require("./util.js");
 const fs = require("fs");
 var constant = require("./const.js");
-
+// Load the SDK for JavaScript
+var AWS = require('aws-sdk');
+// Set the Region 
+AWS.config.update({region: 'us-west-1'});
+s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
 const traitLoad = async(raw, state) =>{
   let res = false;
@@ -122,14 +126,17 @@ const writeState = async (state,vm_id) =>{
     if(state){
       if(state.num){
         const current_num = state.num;
+        console.log(last_num,current_num);
         if(last_num != current_num){
-          fs.writeFile(constant.EFS_DIR+vm_id.toString(), JSON.stringify(state), function(err) {
-            if(err) {
-                return console.log(err);
-            }
-            console.log("The file was saved!");
-            last_num = current_num;
-          }); 
+          writeStateAWS(vm_id.toString(),state);
+          last_num = current_num;
+          // fs.writeFile(constant.EFS_DIR+vm_id.toString(), JSON.stringify(state), function(err) {
+          //   if(err) {
+          //       return console.log(err);
+          //   }
+          //   console.log("The file was saved!");
+          //   last_num = current_num;
+          // }); 
         }
       }
     }
@@ -175,3 +182,24 @@ async function trigger(config,vm_info){
 //   "VM_TYPE": 1,
 //   "VM_NUM": 23
 // })
+
+const writeStateAWS = async (file, json) =>{
+  var uploadParams = {Bucket: 'nft-quant44219-staging', Key: 'public/'+file, Body: JSON.stringify(json)};
+  s3.upload (uploadParams, function (err, data) {
+    if (err) {
+      console.log("Error", err);
+    } if (data) {
+      console.log("Upload Success", data.Location);
+      var params = {
+        Bucket: "nft-quant44219-staging", 
+        Key: 'public/'+file,
+        ACL: "public-read"
+       };
+      s3.putObjectAcl(params, function(err, data) {
+         if (err) console.log(err, err.stack); // an error occurred
+         else     console.log(data);           // successful response
+       });
+    }
+  });
+}
+

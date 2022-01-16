@@ -4,23 +4,42 @@ var util = require("./util.js");
 const fs = require("fs");
 const _ = require("lodash");
 const opensea = require("./opensea.js");
-
 let TOTAL_SUPPLY = 1;
 const is_buy = true;
 
 
 const fileToJson = async (state,file) => {
-  var obj;
-  fs.readFile(constant.EFS_DIR+file, 'utf8', function (err, data) {
-    if (err) {
-      console.log(err.message);
-      return;
+  const url = "https://nft-quant44219-staging.s3.us-west-1.amazonaws.com/public/"+file;
+  fetch(url, {
+    method: "GET",
+    cache: 'no-cache',
+    timeout: 7000
+  })
+  .then(response => response.text())
+  .then(async response => {
+    //console.log(response);
+    try {
+        const data = JSON.parse(response);
+        addonState(state,data);
+    } catch(err) {
+       // It is text, do you text handling here
     }
-    obj = JSON.parse(data);
-    //console.log(obj);
-    addonState(state,obj);
+  })
+  .catch(err => {
+    console.log(err);
   });
-  return obj;
+  
+  // var obj;
+  // fs.readFile(constant.EFS_DIR+file, 'utf8', function (err, data) {
+  //   if (err) {
+  //     console.log(err.message);
+  //     return;
+  //   }
+  //   obj = JSON.parse(data);
+  //   //console.log(obj);
+  //   addonState(state,obj);
+  // });
+  // return obj;
 }
 
 const addonState = async(state, tinfo) => {
