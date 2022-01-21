@@ -1,10 +1,11 @@
 {
-  "prefix": "https://api.apekidsclub.io/api/",
+  "prefix": "https://ikzttp.mypinata.cloud/ipfs/QmeBWSnYPEnUimvpPfNHuvgcK9wFH9Sa6cZ4KDfgkfJJis/",
   "postfix": "",
-  "offset": 100,
-  "contract": "0x9Bf252f97891b907F002F2887EfF9246e3054080",
+  "offset": 10000,
+  "contract": "0xed5af388653567af2f388e6224dc7c4b3241c544",
   "first_buy": 1,
   "total_buy": 2,
   "price_cap": "0.01",
-  "author": ""
+  "author": "",
+  "start": 1
 }

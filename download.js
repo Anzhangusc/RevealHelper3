@@ -203,3 +203,24 @@ const writeStateAWS = async (file, json) =>{
   });
 }
 
+const writeStateDB = async (contract, json) =>{
+
+  var dynamodb = new AWS.DynamoDB();
+  var docClient = new AWS.DynamoDB.DocumentClient();
+
+  const newState = {
+    TableName: "Trait_State",
+    Item:{
+        Contract: contract.toLowerCase(),
+        State: JSON.stringify(json)
+    }
+  };
+  docClient.put(newState, function(err, data) {
+    if (err) {
+        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+    } else {
+        console.log("Added item:", JSON.stringify(data, null, 2));
+    }
+  });
+}
+
